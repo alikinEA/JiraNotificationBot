@@ -35,7 +35,7 @@ func (service *NotificationService) checkUpdateIssues() {
 					", labels: " + value.jiraLabels
 
 				fmt.Println("Message to chat: " + strconv.Itoa(service.botApiService.chatId) + ", " + message)
-				//service.botApiService.sendMessageToChat(message)
+				service.botApiService.sendMessageToChat(message)
 			}
 		}
 		newIssues = nil
