@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	reviewStatus string = "РЕВЬЮ"
-	toDoStatus string = "TO DO"
-	testingStatus string = "ТЕСТИРОВАНИЕ"
+	reviewStatus     string = "РЕВЬЮ"
+	toDoStatus       string = "TO DO"
+	testingStatus    string = "ТЕСТИРОВАНИЕ"
 	codeReviewStatus string = "КОД-РЕВЬЮ"
 )
 
@@ -64,26 +64,32 @@ func main() {
 	repository := IssueRepository{Db: db}
 
 	service1 := NotificationService{
-		repository: &repository,
-		botApiService: &botApiService,
-		statusName: reviewStatus,
+		repository:          &repository,
+		botApiService:       &botApiService,
+		statusName:          reviewStatus,
 		telegramNickNameMap: telegramNickNameMap}
 	service2 := NotificationService{
-		repository: &repository,
-		botApiService: &botApiService,
-		statusName: toDoStatus,
+		repository:          &repository,
+		botApiService:       &botApiService,
+		statusName:          toDoStatus,
 		telegramNickNameMap: telegramNickNameMap}
 	service3 := NotificationService{
-		repository: &repository,
-		botApiService: &botApiService,
-		statusName: testingStatus,
+		repository:          &repository,
+		botApiService:       &botApiService,
+		statusName:          testingStatus,
 		telegramNickNameMap: telegramNickNameMap}
 	service4 := NotificationService{
-		repository: &repository,
-		botApiService: &botApiService,
-		statusName: codeReviewStatus,
+		repository:          &repository,
+		botApiService:       &botApiService,
+		statusName:          codeReviewStatus,
 		telegramNickNameMap: telegramNickNameMap}
 
+	go runProcessing(service1, service2, service3, service4)
+
+	runRestHealthEndpoint()
+}
+
+func runProcessing(service1 NotificationService, service2 NotificationService, service3 NotificationService, service4 NotificationService) {
 	for {
 		service1.CheckUpdateIssues()
 		service2.CheckUpdateIssues()
@@ -92,7 +98,6 @@ func main() {
 		time.Sleep(2000 * time.Millisecond)
 	}
 
-	runRestHealthEndpoint()
 }
 
 func runRestHealthEndpoint() {
