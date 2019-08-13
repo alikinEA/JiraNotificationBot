@@ -67,22 +67,26 @@ func main() {
 		repository:          &repository,
 		botApiService:       &botApiService,
 		statusName:          reviewStatus,
-		telegramNickNameMap: telegramNickNameMap}
+		telegramNickNameMap: telegramNickNameMap,
+		currentIssues:       &[]Issue{}}
 	service2 := NotificationService{
 		repository:          &repository,
 		botApiService:       &botApiService,
 		statusName:          toDoStatus,
-		telegramNickNameMap: telegramNickNameMap}
+		telegramNickNameMap: telegramNickNameMap,
+		currentIssues:       &[]Issue{}}
 	service3 := NotificationService{
 		repository:          &repository,
 		botApiService:       &botApiService,
 		statusName:          testingStatus,
-		telegramNickNameMap: telegramNickNameMap}
+		telegramNickNameMap: telegramNickNameMap,
+		currentIssues:       &[]Issue{}}
 	service4 := NotificationService{
 		repository:          &repository,
 		botApiService:       &botApiService,
 		statusName:          codeReviewStatus,
-		telegramNickNameMap: telegramNickNameMap}
+		telegramNickNameMap: telegramNickNameMap,
+		currentIssues:       &[]Issue{}}
 
 	go runProcessing(service1, service2, service3, service4)
 
@@ -91,10 +95,10 @@ func main() {
 
 func runProcessing(service1 NotificationService, service2 NotificationService, service3 NotificationService, service4 NotificationService) {
 	for {
-		service1.CheckUpdateIssues()
-		service2.CheckUpdateIssues()
-		service3.CheckUpdateIssues()
-		service4.CheckUpdateIssues()
+		service1.checkUpdateIssues()
+		service2.checkUpdateIssues()
+		service3.checkUpdateIssues()
+		service4.checkUpdateIssues()
 		time.Sleep(2000 * time.Millisecond)
 	}
 

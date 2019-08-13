@@ -6,19 +6,19 @@ import (
 )
 
 type NotificationService struct {
-	repository *IssueRepository
-	botApiService *BotApiService
-	statusName string
+	repository          *IssueRepository
+	botApiService       *BotApiService
+	statusName          string
 	telegramNickNameMap map[string]string
-	currentIssues []Issue
+	currentIssues       *[]Issue
 }
 
-func (service NotificationService)CheckUpdateIssues() {
-	var issues = service.repository.getActualIssuesByStatusName(service.statusName)
-	if service.currentIssues != nil {
+func (service *NotificationService) checkUpdateIssues() {
+	var issues = service.repository.getActualIssuesByStatusName(&service.statusName)
+	if len(*service.currentIssues) != 0 {
 		var newIssues []Issue
 		for _, value1 := range issues {
-			if !containsIssue(service.currentIssues, value1) {
+			if !containsIssue(service.currentIssues, &value1) {
 				newIssues = append(newIssues, value1)
 			}
 		}
@@ -35,17 +35,16 @@ func (service NotificationService)CheckUpdateIssues() {
 					", labels: " + value.jiraLabels
 
 				fmt.Println("Message to chat: " + strconv.Itoa(service.botApiService.chatId) + ", " + message)
-				service.botApiService.sendMessageToChat(message)
+				//service.botApiService.sendMessageToChat(message)
 			}
 		}
 		newIssues = nil
 	}
-	service.currentIssues = issues
+	service.currentIssues = &issues
 }
 
-
-func containsIssue(issues []Issue, issue Issue) bool {
-	for _, value := range issues {
+func containsIssue(issues *[]Issue, issue *Issue) bool {
+	for _, value := range *issues {
 		if issue.id == value.id {
 			return true
 		}

@@ -10,9 +10,9 @@ type IssueRepository struct {
 	Db *sql.DB
 }
 
-func (repository IssueRepository)getActualIssuesByStatusName(statusName string) []Issue {
+func (repository *IssueRepository) getActualIssuesByStatusName(statusName *string) []Issue {
 	rows, err := repository.Db.Query("select id,jira_status_name,jira_key,jira_assignee_login,entity_id,jira_labels from palantir.jira_issue " +
-		"WHERE jira_status_name = '" + statusName +
+		"WHERE jira_status_name = '" + *statusName +
 		"'and project_key='EAISTPK' and deleted_date_time is null " +
 		"and jira_assignee_login is not null " +
 		"and jira_labels is not null " +
@@ -32,6 +32,6 @@ func (repository IssueRepository)getActualIssuesByStatusName(statusName string) 
 		issues = append(issues, issue)
 	}
 
-	log.Println("received len: " + strconv.Itoa(len(issues)) + ", status: " + statusName)
+	log.Println("received len: " + strconv.Itoa(len(issues)) + ", status: " + *statusName)
 	return issues
 }
