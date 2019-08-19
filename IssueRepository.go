@@ -25,7 +25,7 @@ func (repository *IssueRepository) getActualIssuesByStatusName(statusName *strin
 	var issues []Issue
 	for rows.Next() {
 		issue := Issue{}
-		err = rows.Scan(&issue.id, &issue.statusName, &issue.key, &issue.assigneeLogin, &issue.entityId, &issue.jiraLabels)
+		err = rows.Scan(&issue.id, &issue.statusName, &issue.key, &issue.assigneeLogin, &issue.entityId, &issue.jiraLabels, &issue.jiraTesterLogin)
 		if err != nil {
 			log.Fatal(err)
 		}
