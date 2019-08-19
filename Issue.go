@@ -1,5 +1,7 @@
 package main
 
+import "database/sql"
+
 type Issue struct {
 	id              int
 	statusName      string
@@ -7,5 +9,5 @@ type Issue struct {
 	assigneeLogin   string
 	entityId        int
 	jiraLabels      string
-	jiraTesterLogin string
+	jiraTesterLogin sql.NullString
 }

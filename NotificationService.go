@@ -26,7 +26,7 @@ func (service *NotificationService) checkUpdateIssues() {
 			for _, value := range newIssues {
 				assignee := value.assigneeLogin
 				if value.statusName == testingStatus {
-					if val, ok := service.telegramNickNameMap[value.jiraTesterLogin]; ok {
+					if val, ok := service.telegramNickNameMap[value.jiraTesterLogin.String]; ok {
 						assignee = val
 					}
 				} else {
