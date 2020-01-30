@@ -1,7 +1,6 @@
 package main
 
 import (
-
 	"golang.org/x/net/proxy"
 	"io/ioutil"
 	"log"
@@ -22,7 +21,6 @@ type BotApiService struct {
 	chatId    int
 }
 
-
 func (settings BotApiService) sendMessageToChat(message string) string {
 	sendUrl := "/sendMessage?chat_id=" + strconv.Itoa(settings.chatId) + "&text=" + message
 	return sendRequest(settings, sendUrl)
@@ -36,14 +34,17 @@ func (settings BotApiService) getUpdates() string {
 	return sendRequest(settings, TelegramUrlApiGetUpdates)
 }
 
-
 func sendRequest(settings BotApiService, method string) string {
 	var auth = &proxy.Auth{User: settings.proxyUser, Password: settings.proxyPass}
 	dialSocksProxy, err := proxy.SOCKS5("tcp", settings.proxyIp, auth, proxy.Direct)
 	if err != nil {
 		log.Fatalln("Error connecting to proxy:", err)
 	}
-	tr := &http.Transport{Dial: dialSocksProxy.Dial}
+	tr := &http.Transport{
+		Dial:                dialSocksProxy.Dial,
+		MaxIdleConns:        20,
+		MaxIdleConnsPerHost: 20,
+	}
 
 	// Create client
 	client := &http.Client{
