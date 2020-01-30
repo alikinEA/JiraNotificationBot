@@ -43,8 +43,7 @@ func sendRequest(settings BotApiService, method string) string {
 	tr := &http.Transport{
 		Dial:                dialSocksProxy.Dial,
 		MaxIdleConns:        20,
-		MaxIdleConnsPerHost: 20,
-	}
+		MaxIdleConnsPerHost: 20}
 
 	// Create client
 	client := &http.Client{
