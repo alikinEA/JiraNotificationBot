@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const TelegramUrl = "https://api.telegram.org/"
@@ -43,11 +44,13 @@ func sendRequest(settings BotApiService, method string) string {
 	tr := &http.Transport{
 		Dial:                dialSocksProxy.Dial,
 		MaxIdleConns:        20,
-		MaxIdleConnsPerHost: 20}
+		MaxIdleConnsPerHost: 20,
+	}
 
 	// Create client
 	client := &http.Client{
 		Transport: tr,
+		Timeout:   30 * time.Second,
 	}
 
 	resp, err := client.Get(TelegramUrl + "bot" + settings.botId + method)
