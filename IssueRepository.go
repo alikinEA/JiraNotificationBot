@@ -18,7 +18,7 @@ func (repository *IssueRepository) getActualIssuesByStatusName(statusName *strin
 		"and jira_labels is not null " +
 		"order by id")
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	defer rows.Close()
 
@@ -27,7 +27,7 @@ func (repository *IssueRepository) getActualIssuesByStatusName(statusName *strin
 		issue := Issue{}
 		err = rows.Scan(&issue.id, &issue.statusName, &issue.key, &issue.assigneeLogin, &issue.entityId, &issue.jiraLabels, &issue.jiraTesterLogin)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		issues = append(issues, issue)
 	}

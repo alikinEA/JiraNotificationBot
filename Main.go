@@ -23,7 +23,7 @@ func initDB(dbConnectSettings string) *sql.DB {
 	connStr := dbConnectSettings + "?sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	return db
 }

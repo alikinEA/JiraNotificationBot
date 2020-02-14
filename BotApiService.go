@@ -39,7 +39,7 @@ func sendRequest(settings BotApiService, method string) string {
 	var auth = &proxy.Auth{User: settings.proxyUser, Password: settings.proxyPass}
 	dialSocksProxy, err := proxy.SOCKS5("tcp", settings.proxyIp, auth, proxy.Direct)
 	if err != nil {
-		log.Fatalln("Error connecting to proxy:", err)
+		log.Println("Error connecting to proxy:", err)
 	}
 	tr := &http.Transport{
 		Dial:                dialSocksProxy.Dial,
@@ -55,13 +55,13 @@ func sendRequest(settings BotApiService, method string) string {
 
 	resp, err := client.Get(TelegramUrl + "bot" + settings.botId + method)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	return string(body)
 }
