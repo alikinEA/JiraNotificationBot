@@ -50,7 +50,7 @@ func sendRequest(settings BotApiService, method string) string {
 	// Create client
 	client := &http.Client{
 		Transport: tr,
-		Timeout:   30 * time.Second,
+		Timeout:   60 * time.Minute,
 	}
 
 	resp, err := client.Get(TelegramUrl + "bot" + settings.botId + method)
