@@ -29,6 +29,7 @@ func initDB(dbConnectSettings string) *sql.DB {
 }
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	fmt.Println("start up args string: ", os.Args[1:])
 	botId := os.Args[1]
