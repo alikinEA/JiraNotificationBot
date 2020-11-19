@@ -15,7 +15,7 @@ import (
 const (
 	reviewStatus     string = "РЕВЬЮ"
 	toDoStatus       string = "TO DO"
-	testingStatus    string = "ТЕСТИРОВАНИЕ"
+	testingStatus    string = "Ready For Testing"
 	codeReviewStatus string = "КОД-РЕВЬЮ"
 )
 
